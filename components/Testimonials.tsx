@@ -1,20 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { SectionHeader } from "./SectionHeader";
 
 const founders = [
   {
-    initials: "sk",
+    photo: "/founders/shaurya.png",
     name: "Shaurya Kumar",
     college: "IIT Delhi",
-    avatarClass: "bg-[#EEEDFE] text-[#3C3489]",
   },
   {
-    initials: "ng",
+    photo: "/founders/nishlesh.png",
     name: "Nishlesh Goel",
     college: "IIT Bombay",
-    avatarClass: "bg-[#E1F5EE] text-[#085041]",
   },
 ];
 
@@ -51,11 +50,13 @@ export function Testimonials() {
                 className="bg-white border-hairline-all rounded-xl p-5"
               >
                 <div className="flex items-center gap-3">
-                  <span
-                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-medium uppercase tracking-tightish ${f.avatarClass}`}
-                  >
-                    {f.initials}
-                  </span>
+                  <Image
+                    src={f.photo}
+                    alt={f.name}
+                    width={44}
+                    height={44}
+                    className="h-11 w-11 shrink-0 rounded-full object-cover"
+                  />
                   <div className="min-w-0">
                     <div className="text-sm text-ink font-medium">{f.name}</div>
                     <div className="text-xs text-ink/55">{f.college}</div>

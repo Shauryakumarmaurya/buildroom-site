@@ -84,6 +84,18 @@ export function Hero() {
             animate="show"
             variants={fadeUp}
             custom={4}
+            className="mt-5"
+          >
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-brand/10 text-sm text-ink/70 px-3 py-1.5">
+              early deadline — <span className="text-brand font-medium">10 june</span>
+            </span>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            animate="show"
+            variants={fadeUp}
+            custom={4}
             className="mt-10 sm:mt-14 flex items-center gap-3 text-xs text-ink/50"
           >
             <span className="h-px w-8 bg-ink/15" />

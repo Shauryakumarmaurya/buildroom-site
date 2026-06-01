@@ -19,6 +19,7 @@ type AuthContextValue = {
   openAuth: () => void;
   closeAuth: () => void;
   signInWithEmail: (email: string) => Promise<{ error: string | null }>;
+  signInWithGoogle: () => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
 };
 
@@ -78,6 +79,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     [supabase]
   );
 
+  const signInWithGoogle = useCallback(async () => {
+    if (!supabase) return { error: "login isn't configured yet." };
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo:
+          typeof window !== "undefined" ? window.location.origin : undefined,
+      },
+    });
+    return { error: error ? error.message : null };
+  }, [supabase]);
+
   const signOut = useCallback(async () => {
     if (!supabase) return;
     await supabase.auth.signOut();
@@ -93,9 +106,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       openAuth,
       closeAuth,
       signInWithEmail,
+      signInWithGoogle,
       signOut,
     }),
-    [user, ready, authEnabled, isAuthOpen, openAuth, closeAuth, signInWithEmail, signOut]
+    [
+      user,
+      ready,
+      authEnabled,
+      isAuthOpen,
+      openAuth,
+      closeAuth,
+      signInWithEmail,
+      signInWithGoogle,
+      signOut,
+    ]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

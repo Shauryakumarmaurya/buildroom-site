@@ -18,7 +18,7 @@ export function FinalCTA() {
         >
           <div className="inline-flex items-center gap-2 rounded-full border-hairline-all px-3 py-1 text-xs text-ink/65 bg-white">
             <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-            cohort 01 — closes soon
+            early deadline — 10 june
           </div>
 
           <h2 className="mt-6 text-4xl sm:text-6xl tracking-tighter2 leading-[1.05] text-ink font-medium">
