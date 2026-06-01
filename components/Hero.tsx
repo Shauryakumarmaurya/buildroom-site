@@ -94,6 +94,25 @@ export function Hero() {
             ))}
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+          className="mt-14 sm:mt-20 relative overflow-hidden rounded-3xl border-hairline-all"
+        >
+          <img
+            src="/images/hero-build.jpg"
+            alt="students building a startup together around a table of laptops"
+            className="w-full h-[280px] sm:h-[440px] object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent" />
+          <div className="absolute bottom-5 left-5 sm:bottom-7 sm:left-7 flex items-center gap-2.5 rounded-full bg-white/90 backdrop-blur px-3.5 py-1.5 text-xs text-ink/80">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand" />
+            find cofounders. build products. launch startups.
+          </div>
+        </motion.div>
       </div>
     </section>
   );

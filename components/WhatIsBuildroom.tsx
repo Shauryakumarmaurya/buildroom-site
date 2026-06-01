@@ -57,7 +57,27 @@ export function WhatIsBuildroom() {
           </div>
         </motion.div>
 
-        <div className="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-2 gap-px bg-[var(--hairline)] border-hairline-all rounded-2xl overflow-hidden">
+        <div className="mt-12 sm:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="relative overflow-hidden rounded-2xl border-hairline-all min-h-[260px] lg:min-h-full"
+          >
+            <img
+              src="/images/builders-room.jpg"
+              alt="two builders reviewing code together while others work nearby"
+              className="absolute inset-0 h-full w-full object-cover"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent" />
+            <p className="absolute bottom-5 left-5 right-5 text-white text-lg sm:text-xl tracking-tightish font-medium leading-snug">
+              builders and operators, building in the same room.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 gap-px bg-[var(--hairline)] border-hairline-all rounded-2xl overflow-hidden">
           {categories.map((c, i) => (
             <motion.div
               key={c.tag}
@@ -92,6 +112,7 @@ export function WhatIsBuildroom() {
               </ul>
             </motion.div>
           ))}
+          </div>
         </div>
 
         <motion.p

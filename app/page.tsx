@@ -8,6 +8,7 @@ import { HowItWorks } from "@/components/HowItWorks";
 import { Difference } from "@/components/Difference";
 import { Benefits } from "@/components/Benefits";
 import { WhoShouldApply } from "@/components/WhoShouldApply";
+import { BuiltForIndia } from "@/components/BuiltForIndia";
 import { Vision } from "@/components/Vision";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
@@ -26,6 +27,7 @@ export default function Home() {
         <Difference />
         <Benefits />
         <WhoShouldApply />
+        <BuiltForIndia />
         <PhraseStrip phrase="find cofounders. build products. launch startups." variant="brand" />
         <Vision />
         <FinalCTA />

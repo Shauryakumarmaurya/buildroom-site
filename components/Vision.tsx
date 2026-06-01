@@ -11,6 +11,17 @@ const lines = [
 export function Vision() {
   return (
     <section id="vision" className="relative bg-ink text-white overflow-hidden">
+      <img
+        src="/images/shipping.jpg"
+        alt="a room full of people building on laptops"
+        aria-hidden
+        className="absolute inset-0 h-full w-full object-cover opacity-[0.18]"
+        loading="lazy"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-b from-ink/80 via-ink/60 to-ink"
+      />
       <div
         aria-hidden
         className="absolute inset-0 -z-0 pointer-events-none opacity-[0.06]"

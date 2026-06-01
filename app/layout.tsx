@@ -2,13 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ApplyProvider } from "@/components/ApplyProvider";
-<<<<<<< HEAD
-import { ApplyModal } from "@/components/ApplyModal";
-import { AuthProvider } from "@/components/AuthProvider";
-import { AuthModal } from "@/components/AuthModal";
-import { Intro } from "@/components/Intro";
-=======
->>>>>>> 3372158 (Restructure landing page, add /apply form page and build imagery)
 
 const inter = Inter({
   subsets: ["latin"],
@@ -37,18 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen bg-white text-ink antialiased font-sans">
-<<<<<<< HEAD
-        <Intro />
-        <AuthProvider>
-          <ApplyProvider>
-            {children}
-            <ApplyModal />
-            <AuthModal />
-          </ApplyProvider>
-        </AuthProvider>
-=======
         <ApplyProvider>{children}</ApplyProvider>
->>>>>>> 3372158 (Restructure landing page, add /apply form page and build imagery)
       </body>
     </html>
   );

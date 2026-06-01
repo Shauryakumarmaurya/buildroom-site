@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Logo } from "./Logo";
 import { useApply } from "./ApplyProvider";
-import { useAuth } from "./AuthProvider";
 
 const links = [
   { href: "#what", label: "what is buildroom" },
@@ -14,7 +13,6 @@ const links = [
 
 export function Navbar() {
   const { openApply } = useApply();
-  const { user, authEnabled, openAuth, signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -49,16 +47,6 @@ export function Navbar() {
     openApply();
   };
 
-  const handleLogin = () => {
-    setMobileOpen(false);
-    openAuth();
-  };
-
-  const handleLogout = () => {
-    setMobileOpen(false);
-    signOut();
-  };
-
   return (
     <header
       className={`sticky top-0 z-50 w-full transition-colors duration-200 ${
@@ -89,30 +77,7 @@ export function Navbar() {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-3">
-            {authEnabled &&
-              (user ? (
-                <div className="flex items-center gap-2.5">
-                  <span className="max-w-[160px] truncate text-sm text-ink/55">
-                    {user.email}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={handleLogout}
-                    className="text-sm text-ink/55 hover:text-ink transition-colors"
-                  >
-                    log out
-                  </button>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={openAuth}
-                  className="text-sm text-ink/65 hover:text-ink transition-colors"
-                >
-                  log in
-                </button>
-              ))}
+          <div className="hidden md:flex items-center gap-2">
             <button
               type="button"
               onClick={openApply}
@@ -181,33 +146,6 @@ export function Navbar() {
                   {l.label}
                 </button>
               ))}
-              {authEnabled &&
-                (user ? (
-                  <div
-                    className="flex items-center justify-between py-3"
-                    style={{ borderBottom: "0.5px solid var(--hairline)" }}
-                  >
-                    <span className="max-w-[200px] truncate text-sm text-ink/55">
-                      {user.email}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={handleLogout}
-                      className="text-sm text-ink/70 hover:text-ink"
-                    >
-                      log out
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={handleLogin}
-                    className="py-3 text-left text-base text-ink/80 hover:text-ink"
-                    style={{ borderBottom: "0.5px solid var(--hairline)" }}
-                  >
-                    log in
-                  </button>
-                ))}
               <button
                 type="button"
                 onClick={handleApply}
