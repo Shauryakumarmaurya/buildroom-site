@@ -9,13 +9,27 @@ create table if not exists public.applications (
   name text not null,                 -- full name
   college text not null,              -- college & graduation year
   email text not null,
+<<<<<<< HEAD
   role text not null,                 -- looking / joining / either
   pitch text not null,                -- what are you building / want to build
   unfair_advantage text,              -- prior wins, technical depth, insight, network
   hardest_thing text,                 -- hardest thing done outside academics/startups
   commitment text,                    -- hours/week + what they're giving up
   links text                          -- optional proof-of-work links
+=======
+  pitch text not null,
+  role text not null,
+  track text,           -- 'founder' | 'builder'
+  linkedin text,
+  data jsonb            -- full structured answers for the chosen track
+>>>>>>> 3372158 (Restructure landing page, add /apply form page and build imagery)
 );
+
+-- If you already created the table from an earlier version, run these to add
+-- the new columns (safe to run repeatedly):
+alter table public.applications add column if not exists track text;
+alter table public.applications add column if not exists linkedin text;
+alter table public.applications add column if not exists data jsonb;
 
 -- Row Level Security is enabled, with NO public policies. The app writes via
 -- the service role key (server-side only), which bypasses RLS. This means the

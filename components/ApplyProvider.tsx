@@ -1,25 +1,22 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createContext, useCallback, useContext, useMemo } from "react";
 
 type ApplyContextValue = {
-  isOpen: boolean;
   openApply: () => void;
-  closeApply: () => void;
 };
 
 const ApplyContext = createContext<ApplyContextValue | null>(null);
 
 export function ApplyProvider({ children }: { children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
-  const openApply = useCallback(() => setIsOpen(true), []);
-  const closeApply = useCallback(() => setIsOpen(false), []);
+  const openApply = useCallback(() => {
+    router.push("/apply");
+  }, [router]);
 
-  const value = useMemo(
-    () => ({ isOpen, openApply, closeApply }),
-    [isOpen, openApply, closeApply]
-  );
+  const value = useMemo(() => ({ openApply }), [openApply]);
 
   return <ApplyContext.Provider value={value}>{children}</ApplyContext.Provider>;
 }

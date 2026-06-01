@@ -5,20 +5,24 @@ import { SectionHeader } from "./SectionHeader";
 
 const steps = [
   {
-    title: "apply with your idea or skill",
-    body: "a short application — what you're building, what you bring, and what you're looking for. we read every one.",
+    title: "get selected",
+    body: "we look for proof of work, ambition, and execution. not grades. not resumes.",
   },
   {
-    title: "get matched with potential co-founders",
-    body: "we curate a small group based on overlap, ambition, and complementary skills. no swiping, no spam.",
+    title: "meet exceptional builders",
+    body: "you'll meet engineers, designers, marketers, operators, and founders from top colleges across india.",
   },
   {
-    title: "build together for 8 weeks",
-    body: "you ship something real with your match. weekly check-ins, focused sessions, and a community that pushes you forward.",
+    title: "form teams",
+    body: "find people whose skills complement yours. not networking — actual collaboration.",
   },
   {
-    title: "demo to the cohort & beyond",
-    body: "end the program with a working product, a team you trust, and access to founders, operators, and investors who care.",
+    title: "build",
+    body: "ship real products with support from your cohort. weekly accountability, weekly strategy reviews, continuous feedback.",
+  },
+  {
+    title: "launch",
+    body: "every team launches publicly before the cohort ends.",
   },
 ];
 
@@ -27,7 +31,7 @@ export function HowItWorks() {
     <section id="how" className="relative bg-paper">
       <div className="border-t-hairline" />
       <div className="mx-auto max-w-6xl px-5 sm:px-8 py-20 sm:py-28">
-        <SectionHeader label="how it works" title="a room built for builders." />
+        <SectionHeader label="how it works" title="from application to launch, in one room." />
 
         <div className="mt-12 sm:mt-16 max-w-3xl">
           <ol className="relative">

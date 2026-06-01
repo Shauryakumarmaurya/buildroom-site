@@ -7,7 +7,7 @@ export function Footer() {
         <div className="flex flex-col gap-2">
           <Logo />
           <p className="text-xs text-ink/50">
-            find your co-founder. build something real.
+            find cofounders. build products. launch startups.
           </p>
         </div>
 

@@ -7,9 +7,9 @@ import { useApply } from "./ApplyProvider";
 import { useAuth } from "./AuthProvider";
 
 const links = [
+  { href: "#what", label: "what is buildroom" },
   { href: "#how", label: "how it works" },
-  { href: "#cohort", label: "cohort" },
-  { href: "#founders", label: "founders" },
+  { href: "#vision", label: "vision" },
 ];
 
 export function Navbar() {

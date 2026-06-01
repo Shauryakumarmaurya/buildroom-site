@@ -40,10 +40,10 @@ export function Hero() {
             animate="show"
             variants={fadeUp}
             custom={1}
-            className="mt-6 sm:mt-8 text-5xl sm:text-7xl lg:text-[88px] leading-[1.02] tracking-tighter2 text-ink font-medium"
+            className="mt-6 sm:mt-8 text-5xl sm:text-7xl lg:text-[84px] leading-[1.02] tracking-tighter2 text-ink font-medium"
           >
-            <span className="block">find your co-founder.</span>
-            <span className="block text-brand">build something real.</span>
+            <span className="block">where ambitious students</span>
+            <span className="block text-brand">become founders.</span>
           </motion.h1>
 
           <motion.p
@@ -53,7 +53,7 @@ export function Hero() {
             custom={2}
             className="mt-6 sm:mt-8 max-w-2xl text-lg sm:text-xl text-ink/60 leading-relaxed"
           >
-            buildroom is a curated cohort for serious founders from indian colleges — people who are done talking and ready to build.
+            buildroom brings together exceptional student builders, operators, marketers, and designers to form startup teams, ship products, and build alongside people who are just as ambitious as they are.
           </motion.p>
 
           <motion.div
@@ -68,14 +68,14 @@ export function Hero() {
               onClick={openApply}
               className="inline-flex items-center justify-center rounded-full bg-ink text-white text-sm px-5 py-3 hover:bg-ink/90 transition-colors group"
             >
-              apply to cohort 01
+              apply for cohort 01
               <span className="ml-1.5 transition-transform group-hover:translate-x-0.5">→</span>
             </button>
             <a
               href="#how"
               className="inline-flex items-center justify-center rounded-full border-hairline-all bg-white text-sm text-ink px-5 py-3 hover:border-ink/30 transition-colors"
             >
-              learn more
+              how it works
             </a>
           </motion.div>
 
@@ -84,10 +84,14 @@ export function Hero() {
             animate="show"
             variants={fadeUp}
             custom={4}
-            className="mt-10 sm:mt-14 flex items-center gap-3 text-xs text-ink/50"
+            className="mt-10 sm:mt-14 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-ink/55"
           >
-            <span className="h-px w-8 bg-ink/15" />
-            connecting builders across 50+ colleges in india
+            {["30 builders", "8 weeks", "applications open"].map((item, i) => (
+              <span key={item} className="inline-flex items-center gap-3">
+                {i > 0 && <span className="h-1 w-1 rounded-full bg-ink/25" />}
+                <span className="tracking-tightish">{item}</span>
+              </span>
+            ))}
           </motion.div>
         </div>
       </div>

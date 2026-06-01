@@ -1,9 +1,14 @@
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
+import { PhraseStrip } from "@/components/PhraseStrip";
 import { Problem } from "@/components/Problem";
+import { Insight } from "@/components/Insight";
+import { WhatIsBuildroom } from "@/components/WhatIsBuildroom";
 import { HowItWorks } from "@/components/HowItWorks";
-import { CohortStats } from "@/components/CohortStats";
-import { Testimonials } from "@/components/Testimonials";
+import { Difference } from "@/components/Difference";
+import { Benefits } from "@/components/Benefits";
+import { WhoShouldApply } from "@/components/WhoShouldApply";
+import { Vision } from "@/components/Vision";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 
@@ -13,10 +18,16 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <PhraseStrip phrase="find cofounders. build products. launch startups." variant="light" />
         <Problem />
+        <Insight />
+        <WhatIsBuildroom />
         <HowItWorks />
-        <CohortStats />
-        <Testimonials />
+        <Difference />
+        <Benefits />
+        <WhoShouldApply />
+        <PhraseStrip phrase="find cofounders. build products. launch startups." variant="brand" />
+        <Vision />
         <FinalCTA />
       </main>
       <Footer />

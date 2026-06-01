@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ApplyProvider } from "@/components/ApplyProvider";
+<<<<<<< HEAD
 import { ApplyModal } from "@/components/ApplyModal";
 import { AuthProvider } from "@/components/AuthProvider";
 import { AuthModal } from "@/components/AuthModal";
 import { Intro } from "@/components/Intro";
+=======
+>>>>>>> 3372158 (Restructure landing page, add /apply form page and build imagery)
 
 const inter = Inter({
   subsets: ["latin"],
@@ -14,14 +17,14 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "buildroom — find your co-founder. build something real.",
+  title: "buildroom — where ambitious students become founders.",
   description:
-    "A curated co-founder matching cohort for serious founders from Indian colleges. People who are done talking and ready to build.",
+    "A curated startup-building cohort for ambitious students. Find cofounders, build products, launch startups. We're building India's founder room.",
   metadataBase: new URL("https://buildroom.in"),
   openGraph: {
-    title: "buildroom — find your co-founder. build something real.",
+    title: "buildroom — where ambitious students become founders.",
     description:
-      "A curated co-founder matching cohort for serious founders from Indian colleges.",
+      "A curated startup-building cohort for ambitious students. Find cofounders. Build products. Launch startups.",
     type: "website",
   },
 };
@@ -34,6 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen bg-white text-ink antialiased font-sans">
+<<<<<<< HEAD
         <Intro />
         <AuthProvider>
           <ApplyProvider>
@@ -42,6 +46,9 @@ export default function RootLayout({
             <AuthModal />
           </ApplyProvider>
         </AuthProvider>
+=======
+        <ApplyProvider>{children}</ApplyProvider>
+>>>>>>> 3372158 (Restructure landing page, add /apply form page and build imagery)
       </body>
     </html>
   );
