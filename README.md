@@ -94,3 +94,28 @@ The form posts to the Next.js route handler at `app/api/apply/route.ts`, which v
 5. **Restart `npm run dev`** so the new env vars load. Submit a test application — a new row should appear in `Table Editor → applications`.
 
 > On Vercel (or similar), add the same env vars in the project's environment settings. The `service_role` key is secret — keep it out of client code and version control (`.env.local` is gitignored).
+
+## Login + save/resume drafts (optional)
+
+Logged-in applicants can **save their progress** and finish the application later. Login uses Supabase Auth (email magic link); drafts are stored per-user in an `application_drafts` table protected by row-level security.
+
+### Setup
+
+1. **Add the public client env vars** (browser-safe) to `.env.local`:
+
+   ```bash
+   NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_...   # the "publishable"/anon key
+   ```
+
+2. **Create the drafts table.** Run [`supabase/migrations/0003_application_drafts.sql`](./supabase/migrations/0003_application_drafts.sql) in the SQL editor.
+3. **Allow the redirect URL.** Supabase Dashboard → `Authentication` → `URL Configuration`: set the **Site URL** and add your dev/prod origins (e.g. `http://localhost:3000`) to **Redirect URLs**, so the magic link can return to the site.
+4. **Restart `npm run dev`** to load the new public env vars.
+
+### How it works
+
+- `lib/supabaseBrowser.ts` is the browser client (uses the publishable key).
+- `components/AuthProvider.tsx` tracks the session; `components/AuthModal.tsx` sends the magic link.
+- In the apply modal, logged-in users get a **save & finish later** button; reopening the form restores their saved answers and step. Submitting clears the draft.
+
+> Email sending uses Supabase's built-in SMTP, which is rate-limited (a few per hour). For production, configure a custom SMTP provider in Supabase.

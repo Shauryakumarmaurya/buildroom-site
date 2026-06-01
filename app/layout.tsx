@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ApplyProvider } from "@/components/ApplyProvider";
 import { ApplyModal } from "@/components/ApplyModal";
+import { AuthProvider } from "@/components/AuthProvider";
+import { AuthModal } from "@/components/AuthModal";
 import { Intro } from "@/components/Intro";
 
 const inter = Inter({
@@ -33,10 +35,13 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen bg-white text-ink antialiased font-sans">
         <Intro />
-        <ApplyProvider>
-          {children}
-          <ApplyModal />
-        </ApplyProvider>
+        <AuthProvider>
+          <ApplyProvider>
+            {children}
+            <ApplyModal />
+            <AuthModal />
+          </ApplyProvider>
+        </AuthProvider>
       </body>
     </html>
   );

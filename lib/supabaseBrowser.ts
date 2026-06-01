@@ -1,0 +1,28 @@
+"use client";
+
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+
+let cached: SupabaseClient | null = null;
+
+/**
+ * Browser-side Supabase client built from the public env vars. Used for auth
+ * (login) and reading/writing the signed-in user's application draft via RLS.
+ * Returns null if the public env vars aren't configured.
+ */
+export function getSupabaseBrowser(): SupabaseClient | null {
+  if (cached) return cached;
+
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+
+  cached = createClient(url, key, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      flowType: "implicit",
+    },
+  });
+  return cached;
+}

@@ -3,6 +3,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useApply } from "./ApplyProvider";
+import { useAuth } from "./AuthProvider";
+import { getSupabaseBrowser } from "@/lib/supabaseBrowser";
 
 type Status = "idle" | "submitting" | "done" | "error";
 
@@ -24,12 +26,16 @@ const emptyForm = {
 
 const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
+type SaveState = "idle" | "saving" | "saved";
+
 export function ApplyModal() {
   const { isOpen, closeApply } = useApply();
+  const { user, authEnabled, openAuth } = useAuth();
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [step, setStep] = useState(0);
   const [form, setForm] = useState(emptyForm);
+  const [saveState, setSaveState] = useState<SaveState>("idle");
 
   const set = (key: keyof typeof emptyForm, value: string) =>
     setForm((f) => ({ ...f, [key]: value }));
@@ -54,10 +60,64 @@ export function ApplyModal() {
         setErrorMsg("");
         setStep(0);
         setForm(emptyForm);
+        setSaveState("idle");
       }, 250);
       return () => clearTimeout(t);
     }
   }, [isOpen]);
+
+  // when a logged-in user opens the form, restore their saved draft (and
+  // pre-fill their email) so they can pick up where they left off.
+  useEffect(() => {
+    if (!isOpen || !user) return;
+    const supabase = getSupabaseBrowser();
+    if (!supabase) return;
+    let active = true;
+
+    supabase
+      .from("application_drafts")
+      .select("data, step")
+      .eq("user_id", user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!active) return;
+        if (data?.data) {
+          setForm((f) => ({
+            ...emptyForm,
+            ...data.data,
+            email: data.data.email || user.email || f.email,
+          }));
+          if (typeof data.step === "number") {
+            setStep(Math.min(Math.max(data.step, 0), TOTAL_STEPS - 1));
+          }
+        } else {
+          setForm((f) => ({ ...f, email: f.email || user.email || "" }));
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [isOpen, user]);
+
+  const saveDraft = async () => {
+    const supabase = getSupabaseBrowser();
+    if (!supabase || !user) return;
+    setSaveState("saving");
+    const { error } = await supabase.from("application_drafts").upsert({
+      user_id: user.id,
+      data: form,
+      step,
+      updated_at: new Date().toISOString(),
+    });
+    if (error) {
+      setErrorMsg("couldn't save your draft. please try again.");
+      setSaveState("idle");
+      return;
+    }
+    setSaveState("saved");
+    setTimeout(() => setSaveState("idle"), 2200);
+  };
 
   const validateStep = (s: number): string => {
     if (s === 0) {
@@ -109,6 +169,11 @@ export function ApplyModal() {
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || "something went wrong. please try again.");
+      }
+      // clear the saved draft now that it's been submitted
+      if (user) {
+        const supabase = getSupabaseBrowser();
+        await supabase?.from("application_drafts").delete().eq("user_id", user.id);
       }
       setStatus("done");
     } catch (err) {
@@ -322,12 +387,12 @@ export function ApplyModal() {
                               className="input resize-none"
                             />
                           </Field>
-                          <Field label="realistically, how many hours a week can you give buildroom over the 8 weeks — and what are you giving up to make room for it?">
+                          <Field label="why do you want to join buildroom?">
                             <textarea
                               value={form.commitment}
                               onChange={(e) => set("commitment", e.target.value)}
                               rows={3}
-                              placeholder="be honest. mismatched expectations are the #1 reason co-founders break up."
+                              placeholder="what are you hoping to get out of the cohort, and why now?"
                               className="input resize-none"
                             />
                           </Field>
@@ -343,6 +408,33 @@ export function ApplyModal() {
                     >
                       {errorMsg}
                     </p>
+                  )}
+
+                  {authEnabled && (
+                    <div className="flex items-center justify-between border-t-hairline pt-3">
+                      {user ? (
+                        <button
+                          type="button"
+                          onClick={saveDraft}
+                          disabled={saveState === "saving"}
+                          className="text-xs text-ink/55 hover:text-ink transition-colors disabled:opacity-50"
+                        >
+                          {saveState === "saving"
+                            ? "saving..."
+                            : saveState === "saved"
+                            ? "saved ✓ — you can finish later"
+                            : "save & finish later"}
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={openAuth}
+                          className="text-xs text-ink/55 hover:text-ink transition-colors"
+                        >
+                          <span className="text-brand">log in</span> to save your progress
+                        </button>
+                      )}
+                    </div>
                   )}
 
                   <div className="flex items-center justify-between pt-1">

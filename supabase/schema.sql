@@ -25,3 +25,26 @@ alter table public.applications enable row level security;
 -- Helpful index for sorting newest-first in the dashboard.
 create index if not exists applications_created_at_idx
   on public.applications (created_at desc);
+
+-- ---------------------------------------------------------------------------
+-- Saved application drafts (for logged-in users who want to finish later).
+-- One row per user; the browser writes here with the user's own session, so
+-- row-level security restricts each user to only their own draft.
+-- ---------------------------------------------------------------------------
+create table if not exists public.application_drafts (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  data jsonb not null default '{}'::jsonb,
+  step int not null default 0,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.application_drafts enable row level security;
+
+create policy "drafts_select_own" on public.application_drafts
+  for select using (auth.uid() = user_id);
+create policy "drafts_insert_own" on public.application_drafts
+  for insert with check (auth.uid() = user_id);
+create policy "drafts_update_own" on public.application_drafts
+  for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+create policy "drafts_delete_own" on public.application_drafts
+  for delete using (auth.uid() = user_id);
