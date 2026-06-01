@@ -2,16 +2,14 @@
 
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { geoOrthographic, geoPath, geoGraticule10 } from "d3-geo";
+import { geoMercator, geoPath } from "d3-geo";
 import { SectionHeader } from "./SectionHeader";
 import indiaGeo from "@/lib/indiaGeo.json";
 
-// ---- globe geometry --------------------------------------------------------
-const SIZE = 640;
-const C = SIZE / 2;
-const R = 300; // globe radius
-// orthographic projection centred on India, so the country faces the viewer.
-const CENTER: [number, number] = [82, 22.2];
+// ---- map geometry ----------------------------------------------------------
+const W = 600;
+const H = 650;
+const PAD = 26;
 
 type City = {
   name: string;
@@ -32,28 +30,27 @@ const CITIES: City[] = [
   { name: "kolkata", coords: [88.36, 22.57], label: true, side: "right" },
 ];
 
-function useGlobe() {
+function useIndiaMap() {
   return useMemo(() => {
-    const projection = geoOrthographic()
-      .scale(R)
-      .translate([C, C])
-      .rotate([-CENTER[0], -CENTER[1], 0])
-      .clipAngle(90);
-
-    const path = geoPath(projection);
-    const graticulePath = path(geoGraticule10()) ?? "";
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const indiaPath = path(indiaGeo as any) ?? "";
+    const geo = indiaGeo as any;
+    const projection = geoMercator().fitExtent(
+      [
+        [PAD, PAD],
+        [W - PAD, H - PAD],
+      ],
+      geo
+    );
+    const path = geoPath(projection);
+    const indiaPath = path(geo) ?? "";
 
-    const delhi = projection(CITIES[0].coords) ?? [C, C];
-
+    const delhi = projection(CITIES[0].coords) ?? [W / 2, H / 2];
     const points = CITIES.map((city) => {
-      const p = projection(city.coords);
-      const [x, y] = p ?? [C, C];
+      const [x, y] = projection(city.coords) ?? [W / 2, H / 2];
       return { ...city, x, y };
     });
 
-    return { graticulePath, indiaPath, points, delhi };
+    return { indiaPath, points, delhi };
   }, []);
 }
 
@@ -112,9 +109,18 @@ export function BuiltForIndia() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="relative flex items-center justify-center rounded-3xl bg-ink p-4 sm:p-8"
+            className="relative overflow-hidden rounded-3xl bg-ink p-4 sm:p-6"
           >
-            <Globe />
+            <div
+              aria-hidden
+              className="absolute inset-0 opacity-[0.05]"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)",
+                backgroundSize: "40px 40px",
+              }}
+            />
+            <IndiaMap />
           </motion.div>
         </div>
       </div>
@@ -122,99 +128,66 @@ export function BuiltForIndia() {
   );
 }
 
-function Globe() {
-  const { graticulePath, indiaPath, points, delhi } = useGlobe();
+function IndiaMap() {
+  const { indiaPath, points, delhi } = useIndiaMap();
 
   return (
     <svg
-      viewBox={`0 0 ${SIZE} ${SIZE}`}
-      className="relative w-full h-auto max-w-[440px]"
+      viewBox={`0 0 ${W} ${H}`}
+      className="relative w-full h-auto"
       role="img"
-      aria-label="globe centred on india highlighting major startup cities"
+      aria-label="map of india highlighting major startup cities"
     >
       <defs>
-        <radialGradient id="globe-ocean" cx="38%" cy="32%" r="75%">
-          <stop offset="0%" stopColor="#2B2456" />
-          <stop offset="55%" stopColor="#16122F" />
-          <stop offset="100%" stopColor="#0A0817" />
-        </radialGradient>
-        <radialGradient id="globe-atmos" cx="50%" cy="50%" r="50%">
-          <stop offset="78%" stopColor="#8F7BDB" stopOpacity="0" />
-          <stop offset="92%" stopColor="#8F7BDB" stopOpacity="0.28" />
-          <stop offset="100%" stopColor="#8F7BDB" stopOpacity="0" />
+        <radialGradient id="india-ambient" cx="48%" cy="42%" r="62%">
+          <stop offset="0%" stopColor="#8F7BDB" stopOpacity="0.45" />
+          <stop offset="60%" stopColor="#533AB7" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="#533AB7" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="india-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#A593F0" stopOpacity="0.95" />
-          <stop offset="100%" stopColor="#5B40C0" stopOpacity="0.9" />
+          <stop offset="0%" stopColor="#9A86E8" stopOpacity="0.28" />
+          <stop offset="100%" stopColor="#533AB7" stopOpacity="0.14" />
         </linearGradient>
         <filter id="dot-glow" x="-200%" y="-200%" width="500%" height="500%">
+          <feGaussianBlur stdDeviation="5" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <filter id="map-glow" x="-30%" y="-30%" width="160%" height="160%">
           <feGaussianBlur stdDeviation="6" result="b" />
           <feMerge>
             <feMergeNode in="b" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        <filter id="india-glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="7" result="b" />
-          <feMerge>
-            <feMergeNode in="b" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-        <clipPath id="globe-clip">
-          <circle cx={C} cy={C} r={R} />
-        </clipPath>
       </defs>
 
-      {/* atmospheric halo around the limb */}
-      <circle cx={C} cy={C} r={R + 26} fill="url(#globe-atmos)" />
+      {/* ambient glow behind the landmass */}
+      <ellipse cx={W * 0.46} cy={H * 0.46} rx={W * 0.5} ry={H * 0.52} fill="url(#india-ambient)" />
 
-      {/* the sphere */}
-      <circle cx={C} cy={C} r={R} fill="url(#globe-ocean)" />
+      {/* soft halo copy of the map */}
+      <path d={indiaPath} fill="#8F7BDB" opacity="0.22" filter="url(#map-glow)" />
 
-      {/* everything painted on the surface is clipped to the disc */}
-      <g clipPath="url(#globe-clip)">
-        {/* lat / long grid */}
-        <path
-          d={graticulePath}
-          fill="none"
-          stroke="#9C8DE0"
-          strokeOpacity="0.14"
-          strokeWidth={0.8}
-        />
-
-        {/* faint glow seated under india */}
-        <path d={indiaPath} fill="#8F7BDB" opacity="0.25" filter="url(#india-glow)" />
-
-        {/* india landmass — official boundary */}
-        <path
-          d={indiaPath}
-          fill="url(#india-fill)"
-          stroke="#CDBFF6"
-          strokeOpacity="0.7"
-          strokeWidth={1.1}
-        />
-
-        {/* connections fanning out from delhi */}
-        <g stroke="#C8BDED" strokeOpacity="0.22" strokeWidth={0.9}>
-          {points
-            .filter((p) => p.name !== "delhi")
-            .map((p) => (
-              <line key={`l-${p.name}`} x1={delhi[0]} y1={delhi[1]} x2={p.x} y2={p.y} />
-            ))}
-        </g>
-      </g>
-
-      {/* limb highlight */}
-      <circle
-        cx={C}
-        cy={C}
-        r={R}
-        fill="none"
+      {/* the landmass — official boundary */}
+      <path
+        d={indiaPath}
+        fill="url(#india-fill)"
         stroke="#B6A8EC"
-        strokeOpacity="0.35"
-        strokeWidth={1.2}
+        strokeOpacity="0.6"
+        strokeWidth={1.4}
+        strokeLinejoin="round"
       />
+
+      {/* connections fanning out from delhi */}
+      <g stroke="#8F7BDB" strokeOpacity="0.2" strokeWidth={1}>
+        {points
+          .filter((p) => p.name !== "delhi")
+          .map((p) => (
+            <line key={`l-${p.name}`} x1={delhi[0]} y1={delhi[1]} x2={p.x} y2={p.y} />
+          ))}
+      </g>
 
       {/* city nodes */}
       {points.map((p, i) => (
@@ -222,10 +195,10 @@ function Globe() {
           <motion.circle
             cx={p.x}
             cy={p.y}
-            r={4}
-            fill="#A593F0"
+            r={6}
+            fill="#8F7BDB"
             initial={{ opacity: 0.5, scale: 1 }}
-            animate={{ opacity: [0.5, 0, 0.5], scale: [1, 3, 1] }}
+            animate={{ opacity: [0.5, 0, 0.5], scale: [1, 2.8, 1] }}
             transition={{
               duration: 2.6,
               repeat: Infinity,
@@ -234,14 +207,14 @@ function Globe() {
             }}
             style={{ transformOrigin: `${p.x}px ${p.y}px` }}
           />
-          <circle cx={p.x} cy={p.y} r={3.4} fill="#D7CCF7" filter="url(#dot-glow)" />
-          <circle cx={p.x} cy={p.y} r={2} fill="#ffffff" />
+          <circle cx={p.x} cy={p.y} r={5} fill="#C8BDED" filter="url(#dot-glow)" />
+          <circle cx={p.x} cy={p.y} r={3} fill="#ffffff" />
           {p.label && (
             <text
-              x={p.side === "left" ? p.x - 9 : p.x + 9}
+              x={p.side === "left" ? p.x - 11 : p.x + 11}
               y={p.y}
               fill="#E4DEF6"
-              fontSize="13"
+              fontSize="15"
               fontWeight={500}
               textAnchor={p.side === "left" ? "end" : "start"}
               dominantBaseline="middle"
