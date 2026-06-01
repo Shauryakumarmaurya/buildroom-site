@@ -447,7 +447,7 @@ function FounderForm({
               className="input"
               value={values.email}
               onChange={(e) => set.setEmail(e.target.value)}
-              placeholder="you@college.edu"
+              placeholder="your email address"
             />
           </SubField>
           <SubField label="linkedin">
@@ -602,7 +602,7 @@ function BuilderForm({
               className="input"
               value={values.email}
               onChange={(e) => set.setEmail(e.target.value)}
-              placeholder="you@college.edu"
+              placeholder="your email address"
             />
           </SubField>
           <SubField label="linkedin">

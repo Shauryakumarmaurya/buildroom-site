@@ -19,12 +19,6 @@ export function Footer() {
             hello@buildroom.in
           </a>
           <a
-            href="#"
-            className="hover:text-ink transition-colors"
-          >
-            twitter
-          </a>
-          <a
             href="https://linkedin.com/company/buildroom-in"
             target="_blank"
             rel="noopener noreferrer"

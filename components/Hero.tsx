@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useApply } from "./ApplyProvider";
+import { CohortCountdown } from "./CohortCountdown";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
@@ -16,7 +17,7 @@ export function Hero() {
   const { openApply } = useApply();
 
   return (
-    <section className="relative overflow-hidden">
+    <section id="hero" className="relative overflow-hidden">
       <BackgroundGrid />
 
       <div className="mx-auto max-w-6xl px-5 sm:px-8 pt-20 sm:pt-28 pb-20 sm:pb-32 relative">
@@ -26,13 +27,8 @@ export function Hero() {
             animate="show"
             variants={fadeUp}
             custom={0}
-            className="inline-flex items-center gap-2 rounded-full border-hairline-all px-3 py-1 text-xs text-ink/70 bg-white"
           >
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 animate-ping" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            </span>
-            cohort 01 — applications open
+            <CohortCountdown />
           </motion.div>
 
           <motion.h1

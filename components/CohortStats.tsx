@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import { SectionHeader } from "./SectionHeader";
 
 const stats = [
-  { value: "8", label: "weeks" },
-  { value: "50+", label: "colleges" },
-  { value: "100%", label: "remote" },
+  { value: "30", label: "founders", desc: "hand-picked builders per cohort" },
+  { value: "8", label: "weeks", desc: "of focused building, start to launch" },
+  { value: "50+", label: "colleges", desc: "across india, fully remote" },
 ];
 
 export function CohortStats() {
@@ -20,26 +20,21 @@ export function CohortStats() {
           we're not building a community. we're curating a room. small enough that everyone knows each other, big enough to find the right fit.
         </p>
 
-        <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-px bg-[var(--hairline)] border-hairline-all rounded-2xl overflow-hidden">
+        <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4">
           {stats.map((s, i) => (
             <motion.div
               key={s.label}
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{
-                duration: 0.5,
-                ease: [0.22, 1, 0.36, 1],
-                delay: i * 0.05,
-              }}
-              className="bg-white p-6 sm:p-8 flex flex-col items-start"
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: i * 0.06 }}
+              className="rounded-2xl bg-paper border-hairline-all p-7 sm:p-8 flex flex-col items-start"
             >
-              <div className="text-4xl sm:text-5xl tracking-tighter2 text-ink font-medium tabular-nums">
+              <div className="text-[56px] sm:text-[64px] leading-none font-bold tracking-tighter2 text-ink tabular-nums">
                 {s.value}
               </div>
-              <div className="mt-2 text-xs uppercase tracking-[0.18em] text-ink/55">
-                {s.label}
-              </div>
+              <div className="mt-4 text-base font-medium text-ink">{s.label}</div>
+              <div className="mt-1 text-sm text-ink/50 leading-snug">{s.desc}</div>
             </motion.div>
           ))}
         </div>
