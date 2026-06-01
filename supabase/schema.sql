@@ -1,14 +1,20 @@
 -- Buildroom — applications table
--- Run this in the Supabase SQL editor (Dashboard → SQL Editor → New query).
+-- Run this in the Supabase SQL editor (Dashboard → SQL Editor → New query)
+-- for a FRESH project. If your table already exists, run the migration in
+-- supabase/migrations/0002_application_questions.sql instead.
 
 create table if not exists public.applications (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
-  name text not null,
-  college text not null,
+  name text not null,                 -- full name
+  college text not null,              -- college & graduation year
   email text not null,
-  pitch text not null,
-  role text not null
+  role text not null,                 -- looking / joining / either
+  pitch text not null,                -- what are you building / want to build
+  unfair_advantage text,              -- prior wins, technical depth, insight, network
+  hardest_thing text,                 -- hardest thing done outside academics/startups
+  commitment text,                    -- hours/week + what they're giving up
+  links text                          -- optional proof-of-work links
 );
 
 -- Row Level Security is enabled, with NO public policies. The app writes via

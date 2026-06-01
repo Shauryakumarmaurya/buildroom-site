@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ApplyProvider } from "@/components/ApplyProvider";
 import { ApplyModal } from "@/components/ApplyModal";
+import { Intro } from "@/components/Intro";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen bg-white text-ink antialiased font-sans">
+        <Intro />
         <ApplyProvider>
           {children}
           <ApplyModal />

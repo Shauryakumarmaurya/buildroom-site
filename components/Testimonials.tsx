@@ -5,20 +5,16 @@ import { SectionHeader } from "./SectionHeader";
 
 const founders = [
   {
-    initials: "sm",
-    name: "shaurya kumar maurya",
-    college: "iit delhi",
+    initials: "sk",
+    name: "Shaurya Kumar",
+    college: "IIT Delhi",
     avatarClass: "bg-[#EEEDFE] text-[#3C3489]",
-    story:
-      "spent 4 months looking for a technical co-founder for my fintech idea. posted on linkedin, messaged strangers, went to every hackathon. nothing stuck.",
   },
   {
     initials: "ng",
-    name: "nishlesh goel",
-    college: "iit bombay",
+    name: "Nishlesh Goel",
+    college: "IIT Bombay",
     avatarClass: "bg-[#E1F5EE] text-[#085041]",
-    story:
-      "had the skills to build almost anything but kept joining projects where the other person wasn't serious. wasted a full semester on someone who just wanted a resume line.",
   },
 ];
 
@@ -69,10 +65,6 @@ export function Testimonials() {
                 <span className="mt-3 inline-flex items-center rounded-full bg-[#EEEDFE] text-[#3C3489] text-[11px] px-2.5 py-[3px]">
                   co-founder, buildroom
                 </span>
-
-                <p className="mt-4 text-[15px] leading-relaxed text-ink/60">
-                  {f.story}
-                </p>
               </div>
             ))}
           </div>
