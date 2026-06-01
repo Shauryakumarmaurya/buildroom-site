@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import { SectionHeader } from "./SectionHeader";
 
 const stats = [
-  { value: "30", label: "founders" },
   { value: "8", label: "weeks" },
   { value: "50+", label: "colleges" },
+  { value: "100%", label: "remote" },
 ];
 
 export function CohortStats() {

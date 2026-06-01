@@ -79,6 +79,11 @@ export function BuiltForIndia() {
               engineers, designers, marketers, operators, and founders from top
               colleges in every major indian city. one room for all of them.
             </p>
+            <p className="mt-5 text-[15px] sm:text-base text-ink/70 leading-relaxed max-w-md">
+              cohort 01 is{" "}
+              <span className="text-ink font-medium">fully remote</span> — join
+              from anywhere in india. no relocation, no need to be in person.
+            </p>
 
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4">
               {[

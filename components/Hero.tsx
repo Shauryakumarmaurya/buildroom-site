@@ -86,7 +86,7 @@ export function Hero() {
             custom={4}
             className="mt-10 sm:mt-14 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-ink/55"
           >
-            {["30 builders", "8 weeks", "applications open"].map((item, i) => (
+            {["a small cohort", "8 weeks", "fully remote", "applications open"].map((item, i) => (
               <span key={item} className="inline-flex items-center gap-3">
                 {i > 0 && <span className="h-1 w-1 rounded-full bg-ink/25" />}
                 <span className="tracking-tightish">{item}</span>

@@ -42,8 +42,9 @@ export function WhatIsBuildroom() {
           className="mt-6 max-w-2xl"
         >
           <p className="text-[15px] sm:text-base text-ink/60 leading-relaxed">
-            every cohort brings together 30 exceptional students from across
-            disciplines.
+            every cohort brings together a small, hand-picked group of
+            exceptional students from across disciplines — and, for cohort 01,
+            from anywhere in india. it&apos;s fully remote.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             {backgrounds.map((b) => (

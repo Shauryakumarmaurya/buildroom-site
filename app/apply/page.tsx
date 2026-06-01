@@ -308,8 +308,9 @@ function Intro() {
         apply to buildroom.
       </h1>
       <p className="mt-4 max-w-xl text-base sm:text-lg text-ink/60 leading-relaxed">
-        30 builders. 8 weeks. one room. we look for proof of work, ambition, and
-        execution — not grades, not resumes. it takes about five minutes.
+        a small cohort. 8 weeks. fully remote — join from anywhere in india. we
+        look for proof of work, ambition, and execution — not grades, not
+        resumes. it takes about five minutes.
       </p>
     </div>
   );
