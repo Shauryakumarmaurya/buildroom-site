@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ApplyProvider } from "@/components/ApplyProvider";
+import { Intro } from "@/components/Intro";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,6 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen bg-white text-ink antialiased font-sans">
+        <Intro />
         <ApplyProvider>{children}</ApplyProvider>
       </body>
     </html>
